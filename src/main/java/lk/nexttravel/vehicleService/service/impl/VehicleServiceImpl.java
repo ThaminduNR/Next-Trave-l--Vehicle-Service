@@ -2,6 +2,8 @@ package lk.nexttravel.vehicleService.service.impl;
 
 import lk.nexttravel.vehicleService.dto.VehicleDto;
 import lk.nexttravel.vehicleService.entity.Vehicle;
+import lk.nexttravel.vehicleService.exception.InvalidException;
+import lk.nexttravel.vehicleService.exception.NotFoundException;
 import lk.nexttravel.vehicleService.repo.VehicleRepository;
 import lk.nexttravel.vehicleService.service.VehicleService;
 import org.modelmapper.ModelMapper;
@@ -22,7 +24,7 @@ public class VehicleServiceImpl implements VehicleService {
     ModelMapper mapper;
     @Override
     public void saveVehicle(VehicleDto dto) {
-        if (vehicleRepository.existsById(dto.getVehicleID())) throw new RuntimeException("Already Exist Vehicle");
+        if (vehicleRepository.existsById(dto.getVehicleID())) throw new InvalidException("Already Exist Vehicle");
         Vehicle vehicle = mapper.map(dto, Vehicle.class);
         vehicleRepository.save(vehicle);
     }
@@ -32,7 +34,7 @@ public class VehicleServiceImpl implements VehicleService {
         if (vehicleRepository.existsById(dto.getVehicleID())){
             vehicleRepository.save(mapper.map(dto,Vehicle.class));
         }else {
-            throw new RuntimeException("Please check the Vehicle ID..");
+            throw new NotFoundException("Please check the Vehicle ID..");
         }
     }
 
@@ -41,7 +43,7 @@ public class VehicleServiceImpl implements VehicleService {
         if (vehicleRepository.existsById(id)){
             vehicleRepository.deleteById(id);
         }else {
-            throw  new RuntimeException("Id Does not Exist");
+            throw  new NotFoundException("Id Does not Exist");
         }
     }
 
@@ -54,7 +56,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDto searchVehicle(String id) {
-       if (!vehicleRepository.existsById(id)) throw new RuntimeException("Vehicle Does not exist");
+       if (!vehicleRepository.existsById(id)) throw new NotFoundException("Vehicle Does not exist");
         Vehicle vehicle = vehicleRepository.findById(id).get();
         return mapper.map(vehicle,VehicleDto.class);
 

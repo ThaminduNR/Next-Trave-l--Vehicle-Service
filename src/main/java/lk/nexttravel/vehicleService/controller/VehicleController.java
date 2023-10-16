@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/vehicle/service")
+@RequestMapping("nexttravel/vehicle/service")
 @CrossOrigin
 public class VehicleController {
 
