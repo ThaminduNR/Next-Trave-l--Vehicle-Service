@@ -15,7 +15,7 @@ public class Vehicle {
     private String vehicleBrand;
     private String category;
     private String fuelType;
-    private String fuelUsage;
+    private int dayValue;
     @Lob
     @Column(nullable = false,columnDefinition = "LONGBLOB")
     private byte[] vehicleImageFront;

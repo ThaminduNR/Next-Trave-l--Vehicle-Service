@@ -2,6 +2,7 @@ package lk.nexttravel.vehicleService.controller;
 
 import lk.nexttravel.vehicleService.dto.VehicleDto;
 import lk.nexttravel.vehicleService.service.VehicleService;
+import lk.nexttravel.vehicleService.util.IdGenerator;
 import lk.nexttravel.vehicleService.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,23 +20,24 @@ public class VehicleController {
     VehicleService vehicleService;
 
     @PostMapping(consumes =MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseUtil saveVehicle(@RequestPart String vehicleId,@RequestPart String vehicleBrand,
-                                    @RequestPart String category, @RequestPart String fuelType,
-                                    @RequestPart String fuelUsage,@RequestPart byte[] frontImage,
-                                    @RequestPart byte[] backImage,@RequestPart byte[] sideImage,
-                                    @RequestPart String seats ,@RequestPart String transmissionType ,
-                                    @RequestPart String driverName,@RequestPart String contactNo,
-                                    @RequestPart byte[] license){
+    public ResponseUtil saveVehicle(@RequestPart String vehicleBrand, @RequestPart String category,
+                                    @RequestPart String fuelType, @RequestPart String value,
+                                    @RequestPart byte[] frontImage, @RequestPart byte[] backImage,
+                                    @RequestPart byte[] sideImage, @RequestPart String seats ,
+                                    @RequestPart String transmissionType ,@RequestPart String driverName,
+                                    @RequestPart String contactNo,@RequestPart byte[] license){
         //convert timage base64
         /*String vehicleImageFront = Base64.getEncoder().encodeToString(frontImage);
         String vehicleImageBack = Base64.getEncoder().encodeToString(backImage);
         String vehicleImageSide = Base64.getEncoder().encodeToString(sideImage);
         String licenseImage = Base64.getEncoder().encodeToString(license);*/
-
+        IdGenerator idGenerator = new IdGenerator();
+        String vehicleId = idGenerator.generateID();
         Integer seatCapacity = Integer.parseInt(seats);
+        int dayValue = Integer.parseInt(value);
 
         VehicleDto vehicleDto = new VehicleDto(vehicleId,vehicleBrand, category, fuelType,
-                fuelUsage, frontImage, backImage, sideImage, seatCapacity,
+                dayValue, frontImage, backImage, sideImage, seatCapacity,
                 transmissionType, driverName, contactNo, license);
 
         vehicleService.saveVehicle(vehicleDto);
@@ -45,16 +47,17 @@ public class VehicleController {
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseUtil updateVehicle(@RequestPart String vehicleId,@RequestPart String vehicleBrand,
                                       @RequestPart String category, @RequestPart String fuelType,
-                                      @RequestPart String fuelUsage,@RequestPart byte[] frontImage,
+                                      @RequestPart String value,@RequestPart byte[] frontImage,
                                       @RequestPart byte[] backImage,@RequestPart byte[] sideImage,
                                       @RequestPart String seats ,@RequestPart String transmissionType ,
                                       @RequestPart String driverName,@RequestPart String contactNo,
                                       @RequestPart byte[] license){
 
         Integer seatCapacity = Integer.parseInt(seats);
+        int dayValue = Integer.parseInt(value);
 
         VehicleDto vehicleDto = new VehicleDto(vehicleId,vehicleBrand, category, fuelType,
-                fuelUsage, frontImage, backImage, sideImage, seatCapacity,
+                dayValue, frontImage, backImage, sideImage, seatCapacity,
                 transmissionType, driverName, contactNo, license);
 
         vehicleService.updateVehicle(vehicleDto);
