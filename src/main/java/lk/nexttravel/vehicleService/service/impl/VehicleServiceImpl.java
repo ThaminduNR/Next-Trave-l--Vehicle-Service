@@ -61,4 +61,13 @@ public class VehicleServiceImpl implements VehicleService {
         return mapper.map(vehicle,VehicleDto.class);
 
     }
+
+    @Override
+    public List<VehicleDto> findByCategory(String category) {
+        return mapper.map(vehicleRepository.findByCategory(category), new TypeToken<List<VehicleDto>>() {
+        }.getType());
+
+    }
+
+
 }

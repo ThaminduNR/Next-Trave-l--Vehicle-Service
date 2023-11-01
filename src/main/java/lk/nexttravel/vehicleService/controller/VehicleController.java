@@ -1,6 +1,7 @@
 package lk.nexttravel.vehicleService.controller;
 
 import lk.nexttravel.vehicleService.dto.VehicleDto;
+import lk.nexttravel.vehicleService.entity.Vehicle;
 import lk.nexttravel.vehicleService.service.VehicleService;
 import lk.nexttravel.vehicleService.util.IdGenerator;
 import lk.nexttravel.vehicleService.util.ResponseUtil;
@@ -82,5 +83,11 @@ public class VehicleController {
     public ResponseUtil searchVehicle(@PathVariable String id){
         VehicleDto vehicleDto = vehicleService.searchVehicle(id);
         return new ResponseUtil(200,"Search Success",vehicleDto);
+    }
+    @GetMapping(params = {"category"})
+    public ResponseUtil findByVehicleCategory(@RequestParam String category){
+        System.out.println(category);
+        List<VehicleDto> byCategory = vehicleService.findByCategory(category);
+        return new ResponseUtil(200,"get Category",byCategory);
     }
 }
